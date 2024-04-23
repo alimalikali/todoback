@@ -8,9 +8,8 @@ const userRoutes = require("./routes/usersRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorControllers");
 
-
 const app = express();
-0
+0;
 app.use(cors());
 
 app.use(express.json());
@@ -24,6 +23,10 @@ app.use(express.json());
 app.use("/api/todos", todosRoutes);
 app.use("/api/users", userRoutes);
 
+app.all("/api", (req, res, next) => {
+  res.status(200).json({ message: "Hello, this is the root endpoint!" });
+});
+
 app.all("*", (req, res, next) => {
   next(new AppError(`cant find ${req.originalUrl} on this server`, 404));
 });
@@ -35,6 +38,6 @@ mongoose
   .then(() =>
     app.listen(process.env.PORT, () => {
       console.log(`DB connected to port`, process.env.PORT);
-    }) 
+    })
   )
   .catch((e) => console.log(e));
