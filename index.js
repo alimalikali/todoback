@@ -23,8 +23,12 @@ app.use(express.json());
 app.use("/api/todos", todosRoutes);
 app.use("/api/users", userRoutes);
 
-app.all("/api", (req, res, next) => {
-  res.status(200).json({ message: "Hello, this is the root endpoint!" });
+app.use("/api", (req, res, next) => {
+  res.status(200).json({ message: "Hello, this is the /api endpoint!" });
+});
+
+app.use("/", (req, res, next) => {
+  res.status(200).json({ message: "Hello, this is the root / endpoint!" });
 });
 
 app.all("*", (req, res, next) => {
